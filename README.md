@@ -1,2 +1,2 @@
 ### Description
-GitHub Actionsの練習用リポジトリ
+GitHub Actionsの練習用
