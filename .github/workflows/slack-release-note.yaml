@@ -21,4 +21,4 @@ jobs:
           excludes: prerelease, draft
       - id: markdown_to_html
         name: Markdown to HTML
-        run: echo "$${{ steps.release.outputs.description }}" | perl -pe 's/## 🌱 すべての変更点.*//s'
+        run: echo "$${{ steps.release.outputs.description }}" | sed 's/## 🌱 すべての変更点.*//'
