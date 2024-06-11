@@ -21,4 +21,8 @@ jobs:
           excludes: prerelease, draft
       - id: markdown_to_html
         name: Markdown to HTML
-        run: echo ${{ steps.release.outputs.description }}
+        run: |
+            DESCRIPTION=${{ steps.release.outputs.description }}
+            KEYWORD=" ## 🌱 すべての変更点"
+            CUT_DESCRIPTION=${DESCRIPTION%%$KEYWORD*}
+            echo $CUT_DESCRIPTION
