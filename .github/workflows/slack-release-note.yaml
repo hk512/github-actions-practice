@@ -22,7 +22,7 @@ jobs:
       - id: markdown_to_html
         name: Markdown to HTML
         run: |
-            DESCRIPTION=${{ steps.release.outputs.description }}
+            DESCRIPTION="${{ steps.release.outputs.description }}"
             KEYWORD=" ## 🌱 すべての変更点"
             CUT_DESCRIPTION=${DESCRIPTION%%$KEYWORD*}
             echo "$CUT_DESCRIPTION"
