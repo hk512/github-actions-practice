@@ -22,4 +22,3 @@ jobs:
       - id: markdown_to_html
         name: Markdown to HTML
         run: echo ${{ steps.release.outputs.description }}
- 
