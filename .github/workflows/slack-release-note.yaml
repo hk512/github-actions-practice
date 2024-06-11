@@ -1,4 +1,4 @@
-name: Zendesk Release Note
+name: Slack Release Note
 
 on:
   release:
@@ -7,26 +7,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
-    name: publish!!
+  release:
     runs-on: ubuntu-latest
     steps:
-    - name: echo release note
-      run: |
-        echo "- github.event.release --------------------------"
-        echo ${{ github.event.release }}
-        echo "- github.event.release.html_url --------------------------"
-        echo "${{ github.event.release.html_url }}"
-        echo "- github.event.release.name --------------------------"
-        echo "${{ github.event.release.name }}"
-        echo "- github.event.release.tag_name --------------------------"
-        echo "${{ github.event.release.tag_name }}"
-        echo "- github.event.release.body --------------------------"
-        echo '${{ github.event.release.body }}'
-        echo "---------------------------"
-        release_body='${{ github.event.release.body }}'
-        release_body=${release_body//$'\r\n'/\\n}
-        release_body=${release_body//$'\n'/\\n}
-        echo "${release_body}"
-        echo "---------------------------"
-        echo "---------------------------"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - id: release
+        name: Get Latest Release
+        uses: pozetroninc/github-action-get-latest-release@v0.7.0
+        with:
+          repository: ${{ github.repository }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          excludes: prerelease, draft
+      - id: markdown_to_html
+        name: Markdown to HTML
+        run: echo ${{ steps.release.outputs.description }}
+ 
