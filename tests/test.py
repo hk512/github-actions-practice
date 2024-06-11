@@ -7,3 +7,4 @@ def test():
     assert func(4, 5) == 9
     assert func(5, 6) == 11
     assert func(6, 7) == 13
+    assert func(7, 8) == 15
