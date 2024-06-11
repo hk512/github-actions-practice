@@ -1,12 +1,13 @@
 name: Check README on PR
 
 on:
-  pull_request:
-    branches:
-        - master
+  # pull_request:
+  #   branches:
+  #       - master
   push:
     branches:
-        - master
+        # - master
+        - develop
 
 jobs:
   check:
