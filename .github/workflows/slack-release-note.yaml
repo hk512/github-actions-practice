@@ -19,15 +19,15 @@ jobs:
           repository: ${{ github.repository }}
           token: ${{ secrets.GITHUB_TOKEN }}
           excludes: prerelease, draft
-      # - id: get_release_note
-      #   name: echo release note
-      #   # run: echo "${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
-      #   run: |
-      #     # 改行コードをエスケープする
-      #     release_body='${{ steps.release.outputs.description }}'
-      #     release_body=${release_body//$'\r\n'/\\n}
-      #     release_body=${release_body//$'\n'/\\n}
-      #     echo "::set-output name=body::$release_body"
+      - id: get_release_note
+        name: echo release note
+        # run: echo "${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
+        run: |
+          # 改行コードをエスケープする
+          release_body='${{ steps.release.outputs.description }}'
+          release_body=${release_body//$'\r\n'/\\n}
+          release_body=${release_body//$'\n'/\\n}
+          echo "::set-output name=body::$release_body"
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
         uses: slackapi/slack-github-action@v1.16.0
@@ -51,7 +51,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "${{ steps.get_release_note.outputs.body }}"
+                    "text": ${{ steps.get_release_note.outputs.body }}
                   }
                 }
               ]
