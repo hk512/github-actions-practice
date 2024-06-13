@@ -19,6 +19,24 @@ jobs:
           repository: ${{ github.repository }}
           token: ${{ secrets.GITHUB_TOKEN }}
           excludes: prerelease, draft
-      - id: markdown_to_html
-        name: Markdown to HTML
-        run: echo "$${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
+      - id: get_release_note
+        name: echo release note
+        # run: echo "$${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
+        run: |
+          # 改行コードをエスケープする
+          release_body='$${{ steps.release.outputs.description }}'
+          release_body=${release_body//$'\r\n'/\\n}
+          release_body=${release_body//$'\n'/\\n}
+          echo "::set-output name=body::$release_body"
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slack_notification
+        uses: slackapi/slack-github-action@v1.16.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": "```${{ steps.get_release_note.outputs.body }}```",
+              "unfurl_links": false
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
