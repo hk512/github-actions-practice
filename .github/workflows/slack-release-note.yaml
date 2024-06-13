@@ -28,15 +28,9 @@ jobs:
           release_body=${release_body//$'\r\n'/\\n}
           release_body=${release_body//$'\n'/\\n}
           echo "::set-output name=body::$release_body"
-      - name: Send GitHub Action trigger data to Slack workflow
-        id: slack
+      - name: Send Release Note to Slack Incoming Webhooks 
         uses: slackapi/slack-github-action@v1.16.0
         with:
-          # payload: |
-          #   {
-          #     "text": "```${{ steps.get_release_note.outputs.body }}```",
-          #     "unfurl_links": false
-          #   }
           payload: |
             {
               "blocks": [
@@ -51,7 +45,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ${{ steps.get_release_note.outputs.body }}
+                    "text": "${{ steps.get_release_note.outputs.body }}"
                   }
                 }
               ]
