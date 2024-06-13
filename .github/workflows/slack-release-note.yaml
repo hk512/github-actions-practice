@@ -32,10 +32,29 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.16.0
         with:
+          # payload: |
+          #   {
+          #     "text": "```${{ steps.get_release_note.outputs.body }}```",
+          #     "unfurl_links": false
+          #   }
           payload: |
             {
-              "text": "```${{ steps.get_release_note.outputs.body }}```",
-              "unfurl_links": false
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "New Release: ${{ steps.release.outputs.tag_name }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "```${{ steps.get_release_note.outputs.body }}```"
+                  }
+                }
+              ]
             }
         env:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
