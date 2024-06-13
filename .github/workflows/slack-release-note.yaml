@@ -21,7 +21,7 @@ jobs:
           excludes: prerelease, draft
       - id: get_release_note
         name: echo release note
-        # run: echo "$${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
+        # run: echo "${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
         run: |
           # 改行コードをエスケープする
           release_body='$${{ steps.release.outputs.description }}'
