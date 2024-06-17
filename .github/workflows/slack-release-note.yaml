@@ -24,8 +24,7 @@ jobs:
         # run: echo "${{ steps.release.outputs.description }}" | sed -z 's/## 🌱 すべての変更点.*//'
         run: |
           # 改行コードをエスケープする
-          text=$(echo "${{ steps.release.outputs.description }}" | sed -z 's/## 📝 その他.*//')
-          release_body='${text}'
+          release_body=$(echo "${{ steps.release.outputs.description }}" | sed -z 's/## 📝 その他.*//')
           release_body=${release_body//$'\r\n'/\\n}
           release_body=${release_body//$'\n'/\\n}
           echo "::set-output name=body::$release_body"
